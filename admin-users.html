@@ -380,57 +380,7 @@
 
     <br><br><br>
 
-    <!-- Edit User Modal -->
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeEditModal()">&times;</span>
-            <h2>Edit User</h2>
-            <form id="editUserForm">
-                <input type="hidden" id="editUserId">
-                <input type="hidden" id="editIsAdmin">
-                
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" id="editUsername" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="editEmail" required>
-                </div>
-
-                <div class="form-group">
-                    <label>First Name</label>
-                    <input type="text" id="editFirstName" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Middle Name</label>
-                    <input type="text" id="editMiddleName">
-                </div>
-
-                <div class="form-group">
-                    <label>Last Name</label>
-                    <input type="text" id="editLastName" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Date of Birth</label>
-                    <input type="date" id="editDateOfBirth" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Contact Number</label>
-                    <input type="text" id="editContactNumber" required>
-                </div>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancel</button>
-                    <button type="submit" class="btn-save">Save Changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- Edit User modal removed — users are managed via table actions only -->
 
     <!-- Users Content Begin -->
     <section class="room-availability spad">
@@ -684,9 +634,6 @@
                         <td>${formatDateTime(user.createdAt)}</td>
                         <td>${formatDateTime(user.lastLogin)}</td>
                         <td>
-                            <button class="action-btn edit-btn" onclick='editUser(${JSON.stringify(user)})'>
-                                <i class="fa fa-edit"></i> Edit
-                            </button>
                             <button class="action-btn delete-btn" onclick="deleteUser('${user._id}', '${user.username}')">
                                 <i class="fa fa-trash"></i> Delete
                             </button>
@@ -703,83 +650,7 @@
             container.innerHTML = tableHTML;
         }
 
-        // Open edit modal
-        function editUser(user) {
-            document.getElementById('editUserId').value = user._id;
-            document.getElementById('editUsername').value = user.username;
-            document.getElementById('editEmail').value = user.email;
-            document.getElementById('editFirstName').value = user.firstName;
-            document.getElementById('editMiddleName').value = user.middleName || '';
-            document.getElementById('editLastName').value = user.lastName;
-            document.getElementById('editDateOfBirth').value = formatDateForInput(user.dateOfBirth);
-            document.getElementById('editContactNumber').value = user.contactNumber;
-            document.getElementById('editIsAdmin').value = user.isAdmin ? 'true' : 'false';
-            
-            document.getElementById('editModal').style.display = 'block';
-        }
-
-        // Close edit modal
-        function closeEditModal() {
-            document.getElementById('editModal').style.display = 'none';
-        }
-
-        // Handle edit form submission with validation
-        document.getElementById('editUserForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const userId = document.getElementById('editUserId').value;
-            const token = localStorage.getItem('adminAuthToken');
-
-            const email = document.getElementById('editEmail').value.trim();
-            const contact = document.getElementById('editContactNumber').value.trim();
-
-            // Validate contact number: exactly 11 digits
-            if (!/^\d{11}$/.test(contact)) {
-                alert('Contact number must be exactly 11 digits (numbers only).');
-                return;
-            }
-
-            // Validate email ends with '@gmail.com' (case-insensitive)
-            if (!/@gmail\.com$/i.test(email)) {
-                alert('Email must be a Gmail address ending with "@gmail.com".');
-                return;
-            }
-
-            const updatedUser = {
-                username: document.getElementById('editUsername').value,
-                email: email,
-                firstName: document.getElementById('editFirstName').value,
-                middleName: document.getElementById('editMiddleName').value,
-                lastName: document.getElementById('editLastName').value,
-                dateOfBirth: document.getElementById('editDateOfBirth').value,
-                contactNumber: contact,
-                isAdmin: document.getElementById('editIsAdmin').value === 'true'
-            };
-
-            try {
-                const response = await fetch(`/api/auth/users/${userId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': 'Bearer ' + token,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(updatedUser)
-                });
-
-                const data = await response.json();
-
-                if (response.ok && data.success) {
-                    alert('User updated successfully!');
-                    closeEditModal();
-                    loadUsers();
-                } else {
-                    alert('Failed to update user: ' + (data.message || 'Unknown error'));
-                }
-            } catch (error) {
-                console.error('Error updating user:', error);
-                alert('Error updating user. Please try again.');
-            }
-        });
+        // Edit user UI removed; user edits disabled in UI
 
         // Delete user
         async function deleteUser(userId, username) {

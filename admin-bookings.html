@@ -492,141 +492,7 @@
     </section>
     <!-- Bookings Content End -->
 
-    <!-- Edit Booking Modal (two-column booking layout: form left, summary right) -->
-    <div id="editBookingModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeEditBookingModal()">&times;</span>
-            <h2>Edit Booking</h2>
-            <form id="editBookingForm">
-                <input type="hidden" id="editBookingId">
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="booking-form-container" style="padding:20px;">
-                            <div class="booking-form-title" style="text-align:left; margin-bottom:10px;">
-                                <h3 style="margin:0; font-size:20px;">Booking Details</h3>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Full Name *</label>
-                                        <input type="text" id="editGuestName" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Email Address *</label>
-                                        <input type="email" id="editGuestEmail" required>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Phone Number *</label>
-                                        <input type="text" id="editGuestPhone" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Number of Guests *</label>
-                                        <select id="editGuests" required>
-                                            <option value="1">1 Guest</option>
-                                            <option value="2">2 Guests</option>
-                                            <option value="3">3 Guests</option>
-                                            <option value="4">4 Guests</option>
-                                            <option value="5">5 Guests</option>
-                                            <option value="6">6+ Guests</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Check-in Date *</label>
-                                        <input type="date" id="editCheckIn" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Check-out Date *</label>
-                                        <input type="date" id="editCheckOut" required>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Number of Rooms *</label>
-                                        <select id="editNumRooms" required>
-                                            <option value="1">1 Room</option>
-                                            <option value="2">2 Rooms</option>
-                                            <option value="3">3 Rooms</option>
-                                            <option value="4">4 Rooms</option>
-                                            <option value="5">5 Rooms</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Room Type</label>
-                                        <select id="editRoomType">
-                                            <option value="standard">Standard Room</option>
-                                            <option value="deluxe">Deluxe Room</option>
-                                            <option value="junior">Junior Suite</option>
-                                            <option value="executive">Executive Suite</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Special Requests</label>
-                                <input type="text" id="editSpecialRequests">
-                            </div>
-
-                            <!-- Booking summary moved under Special Requests -->
-                            <div class="price-summary" style="padding:20px; margin-top:10px;">
-                                <h4>Booking Summary</h4>
-                                <div class="price-row">
-                                    <span>Room Type:</span>
-                                    <span id="editSummaryRoomType">Standard Room</span>
-                                </div>
-                                <div class="price-row">
-                                    <span>Price per Night:</span>
-                                    <span id="editPricePerNight">₱3,500</span>
-                                </div>
-                                <div class="price-row">
-                                    <span>Number of Nights:</span>
-                                    <span id="editNumNights">0</span>
-                                </div>
-                                <div class="price-row">
-                                    <span>Number of Rooms:</span>
-                                    <span id="editSummaryNumRooms">1</span>
-                                </div>
-                                <div class="price-row">
-                                    <span>Total Amount:</span>
-                                    <span id="editTotalAmount">₱0</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- right preview removed to allow form to stretch full width -->
-                </div>
-
-                <div class="modal-actions" style="margin-top:20px; display:flex; justify-content:flex-end; gap:10px;">
-                    <button type="button" class="btn-cancel" onclick="closeEditBookingModal()">Cancel</button>
-                    <button type="submit" class="btn-save">Save Changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- Edit booking UI removed — bookings are managed via table actions only -->
 
     <!-- Footer Section Begin -->
     <footer class="footer-section">
@@ -886,9 +752,6 @@
                         <td>${statusTag}</td>
                         <td>${formatDate(booking.bookingDate)}</td>
                         <td>
-                            <button class="action-btn edit-btn" onclick='editBooking(${JSON.stringify(booking)})'>
-                                <i class="fa fa-edit"></i> Edit
-                            </button>
                             <button class="action-btn delete-btn" onclick="deleteBooking(${booking.id}, '${booking.guestName.replace(/'/g, "\\'")}')">
                                 <i class="fa fa-trash"></i> Delete
                             </button>
@@ -905,7 +768,7 @@
             container.innerHTML = tableHTML;
         }
 
-        // Booking actions (edit/delete) - implemented with modal and placeholders for API calls
+        // Booking actions (delete only) - edit UI removed per request
         const bookingRoomTypes = {
             'standard': { name: 'Standard Room', price: 3500 },
             'deluxe': { name: 'Deluxe Room', price: 5500 },
@@ -913,98 +776,7 @@
             'executive': { name: 'Executive Suite', price: 12000 }
         };
 
-        function editBooking(booking) {
-            // booking may be an object or a JSON stringified literal depending on how it's invoked
-            const b = (typeof booking === 'string') ? JSON.parse(booking) : booking;
-
-            document.getElementById('editBookingId').value = b.id || b.bookingId || '';
-            document.getElementById('editGuestName').value = b.guestName || '';
-            document.getElementById('editGuestEmail').value = b.email || '';
-            document.getElementById('editGuestPhone').value = b.phone || b.contactNumber || '';
-            // map room type string to select value keys
-            const roomKey = (b.roomType || '').toLowerCase().includes('junior') ? 'junior' : (b.roomType || 'standard').toLowerCase();
-            document.getElementById('editRoomType').value = roomKey in bookingRoomTypes ? roomKey : 'standard';
-            document.getElementById('editCheckIn').value = (b.checkIn || b.checkInDate || '').split('T')[0];
-            document.getElementById('editCheckOut').value = (b.checkOut || b.checkOutDate || '').split('T')[0];
-            document.getElementById('editGuests').value = b.guests || b.numGuests || 1;
-            document.getElementById('editNumRooms').value = b.numRooms || 1;
-            document.getElementById('editSpecialRequests').value = b.specialRequests || '';
-
-            // no right-column preview — keep focus on booking details
-
-            // calculate initial total
-            calculateEditTotal();
-
-            document.getElementById('editBookingModal').style.display = 'block';
-        }
-
-        function closeEditBookingModal() {
-            document.getElementById('editBookingModal').style.display = 'none';
-        }
-
-        // Calculate total for edit modal
-        function calculateEditTotal() {
-            const roomKey = document.getElementById('editRoomType').value || 'standard';
-            const room = bookingRoomTypes[roomKey] || bookingRoomTypes['standard'];
-            const checkInEl = document.getElementById('editCheckIn');
-            const checkOutEl = document.getElementById('editCheckOut');
-            const checkIn = new Date(checkInEl.value);
-            const checkOut = new Date(checkOutEl.value);
-            const numRooms = parseInt(document.getElementById('editNumRooms').value) || 1;
-
-            let total = 0;
-            let nights = 0;
-            if (checkInEl.value && checkOutEl.value && checkOut > checkIn) {
-                nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-                total = room.price * nights * numRooms;
-            }
-
-            // Update summary fields in modal
-            document.getElementById('editSummaryRoomType').textContent = room.name;
-            document.getElementById('editPricePerNight').textContent = '₱' + room.price.toLocaleString();
-            document.getElementById('editNumNights').textContent = nights;
-            document.getElementById('editSummaryNumRooms').textContent = numRooms;
-            document.getElementById('editTotalAmount').textContent = total ? '₱' + total.toLocaleString() : '₱0';
-        }
-
-        // Wire change listeners in modal
-        document.addEventListener('DOMContentLoaded', function() {
-            ['editRoomType','editCheckIn','editCheckOut','editNumRooms','editGuests'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.addEventListener('change', calculateEditTotal);
-            });
-
-            // Also update minimum check-out when check-in changes (same behavior as booking page)
-            const editCheckInEl = document.getElementById('editCheckIn');
-            const editCheckOutEl = document.getElementById('editCheckOut');
-            if (editCheckInEl && editCheckOutEl) {
-                editCheckInEl.addEventListener('change', function() {
-                    editCheckOutEl.setAttribute('min', this.value);
-                    calculateEditTotal();
-                });
-            }
-
-            // Submit handler for edit modal
-            const editForm = document.getElementById('editBookingForm');
-            if (editForm) {
-                editForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-
-                    // Basic validation
-                    const checkIn = new Date(document.getElementById('editCheckIn').value);
-                    const checkOut = new Date(document.getElementById('editCheckOut').value);
-                    if (!checkIn || !checkOut || checkOut <= checkIn) {
-                        alert('Check-out date must be after check-in date.');
-                        return;
-                    }
-
-                    // TODO: send updated booking to API
-                    alert('Booking updated (placeholder). Implement API call here.');
-                    closeEditBookingModal();
-                    loadBookings();
-                });
-            }
-        });
+        // Edit UI removed — bookings are managed from the table and delete action only
 
         function deleteBooking(id, guestName) {
             if (!confirm(`Are you sure you want to delete booking for "${guestName}" (ID: ${id})? This action cannot be undone.`)) {
